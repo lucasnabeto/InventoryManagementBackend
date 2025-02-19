@@ -1,0 +1,40 @@
+@HostAddress = http://localhost:5083/api
+
+GET {{HostAddress}}/sales
+Accept: application/json
+
+###
+
+GET {{HostAddress}}/sales/1
+Accept: application/json
+
+###
+
+POST {{HostAddress}}/sales
+Content-Type: application/json
+Accept: application/json
+
+{
+    "ProductId": 2,
+    "QuantitySold": 1,
+    "Price": 1000.00,
+    "SaleDate": "2025-02-18"
+}
+
+###
+
+PUT {{HostAddress}}/sales/1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "ProductId": 1,
+    "QuantitySold": 3,
+    "Price": 1000.00,
+    "SaleDate": "18/02/2025"
+}
+
+###
+
+DELETE {{HostAddress}}/sales/1
+Accept: application/json
