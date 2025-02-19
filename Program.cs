@@ -10,9 +10,9 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<InventoryDbContext>();
 
-builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
+builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
 
-builder.Services.AddScoped<IRepository<Sale>, SaleRepository>();
+builder.Services.AddScoped<IRepository<Sale>, Repository<Sale>>();
 
 var app = builder.Build();
 

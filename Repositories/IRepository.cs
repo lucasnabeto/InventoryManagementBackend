@@ -1,14 +1,14 @@
 namespace InventoryManagement.Repositories;
 
-public interface IRepository<T>
+public interface IRepository<TEntity> where TEntity : class
 {
-    Task<IEnumerable<T>> GetAllAsync();
+    Task<IEnumerable<TEntity>> GetAllAsync();
 
-    Task<T?> GetByIdAsync(int id);
+    Task<TEntity?> GetByIdAsync(int id);
 
-    Task CreateAsync(T entity);
+    Task CreateAsync(TEntity entity);
 
-    Task UpdateAsync(T entity);
+    Task UpdateAsync(TEntity entity);
 
-    Task DeleteAsync(T entity);
+    Task DeleteAsync(TEntity entity);
 }
