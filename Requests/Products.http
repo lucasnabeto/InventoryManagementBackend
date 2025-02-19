@@ -30,11 +30,11 @@ Accept: application/json
 {
     "Name": "Product 1",
     "Description": "Product 1 Description",
-    "Price": 1200.00,
+    "Price": 1100.00,
     "StockQuantity": 7
 }
 
 ###
 
-DELETE {{HostAddress}}/products/1
+DELETE {{HostAddress}}/products/4
 Accept: application/json

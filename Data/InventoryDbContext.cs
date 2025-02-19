@@ -1,4 +1,4 @@
-using InventoryManagement.Models;
+using InventoryManagement.Entities;
 
 namespace InventoryManagement.Data;
 public class InventoryDbContext(DbContextOptions<InventoryDbContext> options, IConfiguration configuration) : DbContext(options)

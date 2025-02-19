@@ -1,37 +1,40 @@
-using InventoryManagement.Data;
-using InventoryManagement.Models;
+using InventoryManagement.Entities;
+using InventoryManagement.Repositories;
 
 namespace InventoryManagement.Endpoints;
 
-public static class ProductsEndpoints
+public static class ProductEndpoints
 {
-    public static RouteGroupBuilder MapProductsEndpoints(this RouteGroupBuilder group)
+    public static IEndpointRouteBuilder MapProductEndpoints(this IEndpointRouteBuilder routeBuilder)
     {
-        group.MapGet("/", async (InventoryDbContext context) => Results.Ok(await context.Products.ToListAsync()));
+        var productGroup = routeBuilder.MapGroup("/api/products");
 
-        group.MapGet("/{id:int}", async (InventoryDbContext context, int id) =>
+        productGroup.MapGet("/", async (IRepository<Product> repository) =>
         {
-            Product? product = await context.Products.FindAsync(id);
+            IEnumerable<Product> allProducts = await repository.GetAllAsync();
+            return Results.Ok(allProducts);
+        });
+
+        productGroup.MapGet("/{id:int}", async (IRepository<Product> repository, int id) =>
+        {
+            Product? product = await repository.GetByIdAsync(id);
             if (product is null)
             {
                 return Results.NotFound();
             }
 
             return Results.Ok(product);
+        }).WithName("GetProductById");
+
+        productGroup.MapPost("/", async (IRepository<Product> repository, Product newProduct) =>
+        {
+            await repository.CreateAsync(newProduct);
+            return Results.Created("GetProductById", newProduct);
         });
 
-        group.MapPost("/", async (InventoryDbContext context, Product newProduct) =>
+        productGroup.MapPut("/{id:int}", async (IRepository<Product> repository, int id, Product updatedProduct) =>
         {
-            await context.AddAsync(newProduct);
-
-            await context.SaveChangesAsync();
-
-            return Results.Created($"/api/products/{newProduct.Id}", newProduct);
-        });
-
-        group.MapPut("/{id:int}", async (InventoryDbContext context, int id, Product updatedProduct) =>
-        {
-            Product? product = await context.Products.FindAsync(id);
+            Product? product = await repository.GetByIdAsync(id);
             if (product is null)
             {
                 return Results.NotFound();
@@ -42,25 +45,24 @@ public static class ProductsEndpoints
             product.Price = updatedProduct.Price;
             product.StockQuantity = updatedProduct.StockQuantity;
 
-            await context.SaveChangesAsync();
+            await repository.UpdateAsync(product);
 
             return Results.NoContent();
         });
 
-        group.MapDelete("/{id:int}", async (InventoryDbContext context, int id) =>
+        productGroup.MapDelete("/{id:int}", async (IRepository<Product> repository, int id) =>
         {
-            Product? product = await context.Products.FindAsync(id);
+            Product? product = await repository.GetByIdAsync(id);
             if (product is null)
             {
                 return Results.NotFound();
             }
 
-            context.Products.Remove(product);
-            await context.SaveChangesAsync();
+            await repository.DeleteAsync(product);
 
             return Results.NoContent();
         });
 
-        return group;
+        return routeBuilder;
     }
 }

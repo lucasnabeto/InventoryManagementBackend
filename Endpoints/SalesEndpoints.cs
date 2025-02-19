@@ -1,48 +1,52 @@
 using InventoryManagement.Data;
-using InventoryManagement.Models;
+using InventoryManagement.Entities;
+using InventoryManagement.Repositories;
 
 namespace InventoryManagement.Endpoints;
 
-public static class SalesEndpoints
+public static class SaleEndpoints
 {
-    public static RouteGroupBuilder MapSalesEndpoints(this RouteGroupBuilder group)
+    public static IEndpointRouteBuilder MapSaleEndpoints(this IEndpointRouteBuilder routeBuilder)
     {
-        group.MapGet("/", async (InventoryDbContext context) =>
+        var saleGroup = routeBuilder.MapGroup("api/sales");
+
+        saleGroup.MapGet("/", async (IRepository<Sale> repository) =>
         {
-            List<Sale> allSales = await context.Sales.ToListAsync();
+            IEnumerable<Sale> allSales = await repository.GetAllAsync();
             return Results.Ok(allSales);
         });
 
-        group.MapGet("/{id:int}", async (InventoryDbContext context, int id) =>
+        saleGroup.MapGet("/{id:int}", async (IRepository<Sale> repository, int id) =>
         {
 
-            Sale? sale = await context.Sales.FindAsync(id);
+            Sale? sale = await repository.GetByIdAsync(id);
             if (sale is null)
             {
                 return Results.NotFound();
             }
 
             return Results.Ok(sale);
-        });
+        }).WithName("GetSaleById");
 
-        group.MapPost("/", async (InventoryDbContext context, Sale newSale) =>
+        saleGroup.MapPost("/", async (IRepository<Product> productRepository, IRepository<Sale> saleRepository, Sale newSale) =>
         {
-            Product? product = await context.Products.FindAsync(newSale.ProductId);
+            Product? product = await productRepository.GetByIdAsync(newSale.ProductId);
             if (product is null)
             {
                 return Results.NotFound();
             }
 
             product.StockQuantity -= newSale.QuantitySold;
-            await context.Sales.AddAsync(newSale);
-            await context.SaveChangesAsync();
 
-            return Results.Created($"/sales/{newSale.Id}", newSale);
+            await productRepository.UpdateAsync(product);
+            await saleRepository.CreateAsync(newSale);
+
+            return Results.Created("GetSaleById", newSale);
         });
 
-        group.MapPut("/{id:int}", async (InventoryDbContext context, int id, Sale updatedSale) =>
+        saleGroup.MapPut("/{id:int}", async (IRepository<Sale> repository, int id, Sale updatedSale) =>
         {
-            Sale? sale = await context.Sales.FindAsync(id);
+            Sale? sale = await repository.GetByIdAsync(id);
             if (sale is null)
             {
                 return Results.NotFound();
@@ -54,24 +58,24 @@ public static class SalesEndpoints
             sale.QuantitySold = updatedSale.QuantitySold;
             sale.SaleDate = updatedSale.SaleDate;
 
-            await context.SaveChangesAsync();
+            await repository.UpdateAsync(sale);
 
             return Results.NoContent();
         });
 
-        group.MapDelete("/{id:int}", async (InventoryDbContext context, int id) =>
+        saleGroup.MapDelete("/{id:int}", async (IRepository<Sale> repository, int id) =>
         {
-            Sale? sale = await context.Sales.FindAsync(id);
+            Sale? sale = await repository.GetByIdAsync(id);
             if (sale is null)
             {
                 return Results.NotFound();
             }
 
-            context.Sales.Remove(sale);
-            await context.SaveChangesAsync();
+            await repository.DeleteAsync(sale);
+
             return Results.NoContent();
         });
 
-        return group;
+        return routeBuilder;
     }
 }
