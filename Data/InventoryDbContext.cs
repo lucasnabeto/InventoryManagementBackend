@@ -1,6 +1,6 @@
-using InventoryManagement.Entities;
+using InventoryManagementBackend.Entities;
 
-namespace InventoryManagement.Data;
+namespace InventoryManagementBackend.Data;
 public class InventoryDbContext(DbContextOptions<InventoryDbContext> options, IConfiguration configuration) : DbContext(options)
 {
     private readonly IConfiguration _configuration = configuration;

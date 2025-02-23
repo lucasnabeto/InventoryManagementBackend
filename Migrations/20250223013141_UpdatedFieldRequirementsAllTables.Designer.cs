@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryManagementBackend.Migrations
 {
     [DbContext(typeof(InventoryDbContext))]
-    [Migration("20250222232013_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20250223013141_UpdatedFieldRequirementsAllTables")]
+    partial class UpdatedFieldRequirementsAllTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,6 +28,7 @@ namespace InventoryManagementBackend.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasMaxLength(24)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -46,6 +47,7 @@ namespace InventoryManagementBackend.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasMaxLength(128)
                         .HasColumnType("TEXT");
 
                     b.Property<DateOnly>("ExpirationDate")
@@ -53,6 +55,7 @@ namespace InventoryManagementBackend.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasMaxLength(24)
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Price")
@@ -112,10 +115,12 @@ namespace InventoryManagementBackend.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasMaxLength(24)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Location")
                         .IsRequired()
+                        .HasMaxLength(24)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

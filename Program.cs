@@ -1,9 +1,9 @@
 global using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
-using InventoryManagement.Data;
-using InventoryManagement.Endpoints;
-using InventoryManagement.Entities;
-using InventoryManagement.Repositories;
+using InventoryManagementBackend.Data;
+using InventoryManagementBackend.Endpoints;
+using InventoryManagementBackend.Entities;
+using InventoryManagementBackend.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,11 +36,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapCategoriesEndpoints();
-
 app.MapProductEndpoints();
-
 app.MapSaleEndpoints();
-
 app.MapStoragesEndpoints();
 
 app.Run();

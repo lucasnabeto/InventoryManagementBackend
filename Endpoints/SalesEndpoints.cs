@@ -1,8 +1,8 @@
-using InventoryManagement.Data;
-using InventoryManagement.Entities;
-using InventoryManagement.Repositories;
+using InventoryManagementBackend.Data;
+using InventoryManagementBackend.Entities;
+using InventoryManagementBackend.Repositories;
 
-namespace InventoryManagement.Endpoints;
+namespace InventoryManagementBackend.Endpoints;
 
 public static class SaleEndpoints
 {

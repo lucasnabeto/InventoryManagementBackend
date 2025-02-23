@@ -1,6 +1,6 @@
-using InventoryManagement.Data;
+using InventoryManagementBackend.Data;
 
-namespace InventoryManagement.Repositories;
+namespace InventoryManagementBackend.Repositories;
 
 public class Repository<TEntity>(InventoryDbContext context) : IRepository<TEntity> where TEntity : class
 

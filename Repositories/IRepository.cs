@@ -1,4 +1,4 @@
-namespace InventoryManagement.Repositories;
+namespace InventoryManagementBackend.Repositories;
 
 public interface IRepository<TEntity> where TEntity : class
 {
