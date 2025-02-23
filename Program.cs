@@ -11,9 +11,13 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<InventoryDbContext>();
 
+builder.Services.AddScoped<IRepository<Category>, Repository<Category>>();
+
 builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
 
 builder.Services.AddScoped<IRepository<Sale>, Repository<Sale>>();
+
+builder.Services.AddScoped<IRepository<Storage>, Repository<Storage>>();
 
 var app = builder.Build();
 
@@ -31,8 +35,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app
-    .MapSaleEndpoints()
-    .MapProductEndpoints();
+app.MapCategoriesEndpoints();
+
+app.MapProductEndpoints();
+
+app.MapSaleEndpoints();
+
+app.MapStoragesEndpoints();
 
 app.Run();

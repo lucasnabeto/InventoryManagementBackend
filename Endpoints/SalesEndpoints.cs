@@ -12,7 +12,7 @@ public static class SaleEndpoints
 
         saleGroup.MapGet("/", async (IRepository<Sale> repository) =>
         {
-            IEnumerable<Sale> allSales = await repository.GetAllAsync();
+            ICollection<Sale> allSales = await repository.GetAllAsync();
             return Results.Ok(allSales);
         });
 
@@ -52,11 +52,11 @@ public static class SaleEndpoints
                 return Results.NotFound();
             }
 
-            sale.Price = updatedSale.Price;
+            sale.FullPrice = updatedSale.FullPrice;
             sale.Product = updatedSale.Product;
             sale.ProductId = updatedSale.ProductId;
             sale.QuantitySold = updatedSale.QuantitySold;
-            sale.SaleDate = updatedSale.SaleDate;
+            sale.Date = updatedSale.Date;
 
             await repository.UpdateAsync(sale);
 

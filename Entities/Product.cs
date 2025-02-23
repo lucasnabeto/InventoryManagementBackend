@@ -11,4 +11,14 @@ public class Product
     public decimal Price { get; set; }
 
     public int StockQuantity { get; set; }
+
+    public DateOnly ExpirationDate { get; set; }
+
+    public int CategoryId { get; set; }
+
+    public Category Category { get; set; }
+
+    public int StorageId { get; set; }
+
+    public Storage Storage { get; set; }
 }

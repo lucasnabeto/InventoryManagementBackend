@@ -7,7 +7,7 @@ public class Repository<TEntity>(InventoryDbContext context) : IRepository<TEnti
 {
     private readonly InventoryDbContext _context = context;
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync() => await _context.Set<TEntity>().AsNoTracking().ToListAsync();
+    public async Task<ICollection<TEntity>> GetAllAsync() => await _context.Set<TEntity>().AsNoTracking().ToListAsync();
 
     public async Task<TEntity?> GetByIdAsync(int id) => await _context.Set<TEntity>().FindAsync(id);
 

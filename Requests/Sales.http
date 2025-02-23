@@ -1,16 +1,17 @@
-@HostAddress = http://localhost:5083/api
+@HostAddress = http://localhost:5083
+@RequestPath = api/sales
 
-GET {{HostAddress}}/sales
+GET {{HostAddress}}/{{RequestPath}}
 Accept: application/json
 
 ###
 
-GET {{HostAddress}}/sales/5
+GET {{HostAddress}}/{{RequestPath}}/5
 Accept: application/json
 
 ###
 
-POST {{HostAddress}}/sales
+POST {{HostAddress}}/{{RequestPath}}
 Content-Type: application/json
 Accept: application/json
 
@@ -23,7 +24,7 @@ Accept: application/json
 
 ###
 
-PUT {{HostAddress}}/sales/3
+PUT {{HostAddress}}/{{RequestPath}}/3
 Content-Type: application/json
 Accept: application/json
 
@@ -36,5 +37,5 @@ Accept: application/json
 
 ###
 
-DELETE {{HostAddress}}/sales/3
+DELETE {{HostAddress}}/{{RequestPath}}/3
 Accept: application/json

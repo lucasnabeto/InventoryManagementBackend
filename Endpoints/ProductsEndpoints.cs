@@ -11,7 +11,7 @@ public static class ProductEndpoints
 
         productGroup.MapGet("/", async (IRepository<Product> repository) =>
         {
-            IEnumerable<Product> allProducts = await repository.GetAllAsync();
+            ICollection<Product> allProducts = await repository.GetAllAsync();
             return Results.Ok(allProducts);
         });
 
@@ -44,6 +44,9 @@ public static class ProductEndpoints
             product.Name = updatedProduct.Name;
             product.Price = updatedProduct.Price;
             product.StockQuantity = updatedProduct.StockQuantity;
+            product.ExpirationDate = updatedProduct.ExpirationDate;
+            product.CategoryId = updatedProduct.CategoryId;
+            product.StorageId = updatedProduct.StorageId;
 
             await repository.UpdateAsync(product);
 
