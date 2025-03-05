@@ -4,6 +4,7 @@ using InventoryManagementBackend.Data;
 using InventoryManagementBackend.Endpoints;
 using InventoryManagementBackend.Entities;
 using InventoryManagementBackend.Repositories;
+using InventoryManagementBackend.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,10 @@ builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
 builder.Services.AddScoped<IRepository<Sale>, Repository<Sale>>();
 
 builder.Services.AddScoped<IRepository<Storage>, Repository<Storage>>();
+
+builder.Services.AddProblemDetails();
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
 
@@ -34,6 +39,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseExceptionHandler();
 
 app.MapCategoriesEndpoints();
 app.MapProductEndpoints();
