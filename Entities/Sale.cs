@@ -9,16 +9,21 @@ public class Sale
     public int Id { get; set; }
 
     [Required]
-    public int QuantitySold { get; set; }
-
-    public decimal FullPrice { get; set; }
-
-    public decimal EffectivePrice { get; set; }
-
     public DateOnly Date { get; set; }
 
+    [Required]
     public decimal Discount { get; set; }
 
+    [Required]
+    public decimal EffectivePrice { get; set; }
+
+    [Required]
+    public decimal FullPrice { get; set; }
+
+    [Required]
+    public int QuantitySold { get; set; }
+
+    [Required]
     [ForeignKey("Product")]
     public int ProductId { get; set; }
 

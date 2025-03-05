@@ -8,8 +8,8 @@ public class Category()
     public int Id { get; set; }
 
     [Required]
-    [StringLength(24, ErrorMessage = "The Name field is mandatory and must have a maximum of 24 characters.")]
-    public string? Name { get; set; }
+    [StringLength(24)]
+    public string Name { get; set; } = string.Empty;
 
     public ICollection<Product> Products { get; set; }
 }

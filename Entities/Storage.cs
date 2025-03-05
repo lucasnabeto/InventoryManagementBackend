@@ -8,12 +8,12 @@ public class Storage()
     public int Id { get; set; }
 
     [Required]
-    [StringLength(24, ErrorMessage = "The Name field is mandatory and must have a maximum of 24 characters.")]
-    public string? Description { get; set; }
+    [StringLength(24)]
+    public string Description { get; set; } = string.Empty;
 
     [Required]
-    [StringLength(24, ErrorMessage = "The Name field is mandatory and must have a maximum of 24 characters.")]
-    public string? Location { get; set; }
+    [StringLength(24)]
+    public string Location { get; set; } = string.Empty;
 
     public ICollection<Product> Products { get; set; }
 }

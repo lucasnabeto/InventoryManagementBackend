@@ -9,14 +9,17 @@ public class Product
     public int Id { get; set; }
 
     [Required]
-    [StringLength(24, ErrorMessage = "The Name field is mandatory and must have a maximum of 24 characters.")]
-    public string? Name { get; set; }
+    [StringLength(24)]
+    public string Name { get; set; } = string.Empty;
 
-    [StringLength(128, ErrorMessage = "The Name field is mandatory and must have a maximum of 128 characters.")]
+    [StringLength(128)]
     public string? Description { get; set; }
 
     [Required]
-    public decimal Price { get; set; }
+    public decimal AcquisitionPrice { get; set; }
+
+    [Required]
+    public decimal SellingPrice { get; set; }
 
     [Required]
     public int StockQuantity { get; set; }

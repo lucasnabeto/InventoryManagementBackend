@@ -42,7 +42,8 @@ public static class ProductEndpoints
 
             product.Description = updatedProduct.Description;
             product.Name = updatedProduct.Name;
-            product.Price = updatedProduct.Price;
+            product.AcquisitionPrice = updatedProduct.AcquisitionPrice;
+            product.SellingPrice = updatedProduct.SellingPrice;
             product.StockQuantity = updatedProduct.StockQuantity;
             product.ExpirationDate = updatedProduct.ExpirationDate;
             product.CategoryId = updatedProduct.CategoryId;
