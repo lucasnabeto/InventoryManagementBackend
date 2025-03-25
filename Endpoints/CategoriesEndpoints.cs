@@ -1,5 +1,7 @@
+using InventoryManagementBackend.Dtos;
 using InventoryManagementBackend.Entities;
 using InventoryManagementBackend.Repositories;
+using Mapster;
 
 namespace InventoryManagementBackend.Endpoints;
 
@@ -12,7 +14,10 @@ public static class CategoriesEndpoints
         categoryGroup.MapGet("/", async (IRepository<Category> repository) =>
         {
             ICollection<Category> allCategories = await repository.GetAllAsync();
-            return Results.Ok(allCategories);
+
+            ICollection<CategoryDTO> allCategoriesDTO = allCategories.Adapt<ICollection<CategoryDTO>>();
+
+            return Results.Ok(allCategoriesDTO);
         });
 
         categoryGroup.MapGet("/{id:int}", async (IRepository<Category> repository, int id) =>
@@ -23,16 +28,20 @@ public static class CategoriesEndpoints
                 return Results.NotFound();
             }
 
-            return Results.Ok(category);
+            CategoryDTO categoryDTO = category.Adapt<CategoryDTO>();
+
+            return Results.Ok(categoryDTO);
         }).WithName("GetCategoryById");
 
-        categoryGroup.MapPost("/", async (IRepository<Category> repository, Category newCategory) =>
+        categoryGroup.MapPost("/", async (IRepository<Category> repository, CategoryDTO newCategoryDTO) =>
         {
+            Category newCategory = newCategoryDTO.Adapt<Category>();
+
             await repository.CreateAsync(newCategory);
             return Results.Created("GetCategoryById", newCategory);
         });
 
-        categoryGroup.MapPut("/{id:int}", async (IRepository<Category> repository, int id, Category updatedCategory) =>
+        categoryGroup.MapPut("/{id:int}", async (IRepository<Category> repository, int id, CategoryDTO updatedCategoryDTO) =>
         {
             Category? category = await repository.GetByIdAsync(id);
             if (category is null)
@@ -40,8 +49,11 @@ public static class CategoriesEndpoints
                 return Results.NotFound();
             }
 
-            category.Name = updatedCategory.Name;
-            category.Products = updatedCategory.Products;
+            TypeAdapterConfig<CategoryDTO, Category>
+                .NewConfig()
+                .Ignore(dest => dest.Id);
+
+            updatedCategoryDTO.Adapt(category);
 
             await repository.UpdateAsync(category);
 

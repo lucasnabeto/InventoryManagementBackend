@@ -3,7 +3,6 @@ using InventoryManagementBackend.Data;
 namespace InventoryManagementBackend.Repositories;
 
 public class Repository<TEntity>(InventoryDbContext context) : IRepository<TEntity> where TEntity : class
-
 {
     private readonly InventoryDbContext _context = context;
 

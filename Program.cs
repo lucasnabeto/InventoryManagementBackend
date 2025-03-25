@@ -29,15 +29,18 @@ if (app.Environment.IsDevelopment())
         options
             .WithDarkModeToggle(false)
             .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
-            .WithTitle("Inventory Management");
+            .WithTitle("Inventory Management Backend");
     });
 }
 
 app.UseHttpsRedirection();
 
 app.MapCategoriesEndpoints();
+
 app.MapProductEndpoints();
+
 app.MapSaleEndpoints();
+
 app.MapStoragesEndpoints();
 
 app.Run();

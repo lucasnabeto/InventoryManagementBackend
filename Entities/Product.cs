@@ -27,13 +27,11 @@ public class Product
     [Required]
     public DateOnly ExpirationDate { get; set; }
 
-    [Required]
     [ForeignKey("Category")]
     public int CategoryId { get; set; }
 
     public Category Category { get; set; }
 
-    [Required]
     [ForeignKey("Storage")]
     public int StorageId { get; set; }
 
