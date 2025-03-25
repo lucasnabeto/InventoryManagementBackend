@@ -12,12 +12,20 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<InventoryDbContext>();
 
 builder.Services.AddScoped<IRepository<Category>, Repository<Category>>();
-
 builder.Services.AddScoped<IRepository<Product>, Repository<Product>>();
-
 builder.Services.AddScoped<IRepository<Sale>, Repository<Sale>>();
-
 builder.Services.AddScoped<IRepository<Storage>, Repository<Storage>>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin();
+    });
+});
 
 var app = builder.Build();
 
@@ -35,12 +43,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("AllowAll");
+
 app.MapCategoriesEndpoints();
-
 app.MapProductEndpoints();
-
 app.MapSaleEndpoints();
-
 app.MapStoragesEndpoints();
 
 app.Run();
