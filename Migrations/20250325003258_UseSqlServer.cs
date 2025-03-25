@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace InventoryManagementBackend.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class UseSqlServer : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,9 +15,9 @@ namespace InventoryManagementBackend.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(24)", maxLength: 24, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,10 +28,10 @@ namespace InventoryManagementBackend.Migrations
                 name: "Storages",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
-                    Location = table.Column<string>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "nvarchar(24)", maxLength: 24, nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(24)", maxLength: 24, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,15 +42,16 @@ namespace InventoryManagementBackend.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
-                    Price = table.Column<decimal>(type: "TEXT", nullable: false),
-                    StockQuantity = table.Column<int>(type: "INTEGER", nullable: false),
-                    ExpirationDate = table.Column<DateOnly>(type: "TEXT", nullable: false),
-                    CategoryId = table.Column<int>(type: "INTEGER", nullable: false),
-                    StorageId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(24)", maxLength: 24, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    AcquisitionPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    SellingPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    StockQuantity = table.Column<int>(type: "int", nullable: false),
+                    ExpirationDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    StorageId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,14 +74,14 @@ namespace InventoryManagementBackend.Migrations
                 name: "Sales",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    QuantitySold = table.Column<int>(type: "INTEGER", nullable: false),
-                    FullPrice = table.Column<decimal>(type: "TEXT", nullable: false),
-                    EffectivePrice = table.Column<decimal>(type: "TEXT", nullable: false),
-                    Date = table.Column<DateOnly>(type: "TEXT", nullable: false),
-                    Discount = table.Column<decimal>(type: "TEXT", nullable: false),
-                    ProductId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    EffectivePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FullPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    QuantitySold = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

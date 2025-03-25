@@ -17,7 +17,8 @@ public class InventoryDbContext(DbContextOptions<InventoryDbContext> options, IC
     {
         base.OnConfiguring(optionsBuilder);
 
-        optionsBuilder.UseSqlite(_configuration.GetConnectionString("DefaultConnection")!);
+        // optionsBuilder.UseSqlite(_configuration.GetConnectionString("DefaultConnection")!);
+        optionsBuilder.UseSqlServer(_configuration.GetConnectionString("SQLServerDockerConnection")!);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
